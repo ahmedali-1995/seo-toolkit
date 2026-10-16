@@ -1,0 +1,137 @@
+[
+  {
+    "category": "basics",
+    "question": "What is SEO and how does it work?",
+    "answer": "SEO (search engine optimization) is the practice of making a website easy for search engines to crawl, understand and rank. Search engines discover pages by crawling links, store them in an index, then rank indexed pages for a query using relevance, quality and usability signals. Work falls into three areas: technical (crawlability, speed, structured data), content (matching what people search for) and authority (links and brand mentions)."
+  },
+  {
+    "category": "basics",
+    "question": "How long does SEO take to show results?",
+    "answer": "Most sites see meaningful movement in 3 to 6 months, and competitive topics can take 12 months or more. Technical fixes such as unblocking crawling or fixing canonicals can show results within weeks once pages are recrawled. Timing depends on site age, competition, how often the site is crawled and how much content quality improves."
+  },
+  {
+    "category": "basics",
+    "question": "What is the difference between on-page, off-page and technical SEO?",
+    "answer": "On-page SEO covers what is on a page: titles, headings, copy, internal links and images. Off-page SEO covers signals from elsewhere, mainly backlinks and brand mentions. Technical SEO covers how the site is built and served: crawlability, indexation, rendering, performance, redirects and structured data."
+  },
+  {
+    "category": "basics",
+    "question": "Is SEO better than paid ads?",
+    "answer": "Neither is better in general. Paid ads give immediate traffic that stops when the budget stops. SEO takes longer to build but traffic compounds and has no per-click cost. Most mature businesses use both, using paid data to find converting keywords and SEO to lower long-term acquisition cost."
+  },
+  {
+    "category": "crawling",
+    "question": "What is crawl budget and when does it matter?",
+    "answer": "Crawl budget is the number of URLs a search engine will crawl on your site in a given period, set by server capacity and how much demand it sees for your content. It rarely matters for sites under a few thousand pages. It matters for large sites, such as e-commerce with faceted navigation, where parameter URLs and duplicates can waste crawling on pages that should not be indexed."
+  },
+  {
+    "category": "crawling",
+    "question": "What does robots.txt do, and does it remove pages from Google?",
+    "answer": "robots.txt tells crawlers which paths they may fetch. It does not remove pages from the index: a blocked URL can still be indexed from links, without a snippet. To keep a page out of search results use a noindex directive (meta robots or X-Robots-Tag) and leave the page crawlable so the directive can be seen."
+  },
+  {
+    "category": "crawling",
+    "question": "What is the difference between noindex and canonical?",
+    "answer": "Noindex tells search engines not to show a page in results. A canonical tag suggests which URL among duplicates should be treated as the main version, and the others are consolidated into it. Use noindex for pages that should not appear at all, such as internal search results, and canonical for near-duplicate variants such as tracking or sort parameters."
+  },
+  {
+    "category": "crawling",
+    "question": "Why is my page not indexed?",
+    "answer": "Common causes are a noindex directive, a robots.txt block, a canonical pointing elsewhere, soft 404 or thin content, a redirect chain, or no internal links to the page. Check the URL Inspection tool in Google Search Console, then the Page indexing report. Statuses such as 'Discovered, currently not indexed' usually point to low perceived value or weak internal linking rather than a technical error."
+  },
+  {
+    "category": "technical",
+    "question": "What are Core Web Vitals?",
+    "answer": "Core Web Vitals are Google's user-experience metrics: Largest Contentful Paint (loading, good is 2.5 s or less), Interaction to Next Paint (responsiveness, good is 200 ms or less) and Cumulative Layout Shift (visual stability, good is 0.1 or less). They are measured on real users at the 75th percentile and act as a ranking signal, usually a tiebreaker rather than a dominant factor."
+  },
+  {
+    "category": "technical",
+    "question": "Should I use 301 or 302 redirects?",
+    "answer": "Use a 301 (or 308) for permanent moves so signals consolidate on the new URL. Use a 302 (or 307) for temporary moves where the original URL will return. Avoid redirect chains, because each hop adds latency and can dilute crawling; point every old URL directly at its final destination."
+  },
+  {
+    "category": "technical",
+    "question": "How do hreflang tags work?",
+    "answer": "Hreflang annotations tell search engines which language or regional version of a page to show to which users. Each version must list all alternates including itself, and the references must be reciprocal, or they are ignored. Use ISO 639-1 language codes with optional ISO 3166-1 region codes (for example en-GB) and add an x-default for the fallback page."
+  },
+  {
+    "category": "technical",
+    "question": "Does site speed affect rankings?",
+    "answer": "Yes, but modestly. Page experience is a lightweight ranking signal, and the larger effect is indirect: slow pages lose users, reduce conversions and can limit how much Googlebot crawls. Prioritise fixing slow server response, oversized images and render-blocking scripts before micro-optimising."
+  },
+  {
+    "category": "technical",
+    "question": "Is JavaScript bad for SEO?",
+    "answer": "Not inherently. Google renders JavaScript, but rendering is queued and can delay indexing, and other crawlers and AI bots may not render it at all. For content that must rank, serve it in the initial HTML using server-side rendering or static generation, and make sure links are real anchor tags with href attributes."
+  },
+  {
+    "category": "content",
+    "question": "How do I do keyword research?",
+    "answer": "Start from your topics and customers' problems, collect candidate queries from Search Console, autocomplete, competitors and keyword tools, then group them by search intent. Prioritise by relevance to the business, realistic difficulty and the value of the traffic. One page should target one intent, not one exact keyword."
+  },
+  {
+    "category": "content",
+    "question": "What is search intent and why does it matter?",
+    "answer": "Search intent is the goal behind a query: informational (learn), navigational (find a site), commercial (compare) or transactional (buy). Google ranks the page type that satisfies the intent, so a product page will not rank for a query where results are all guides. Check the current top results to see which format wins before writing."
+  },
+  {
+    "category": "content",
+    "question": "How long should a page or article be?",
+    "answer": "There is no ideal word count. Length should match what it takes to fully answer the query: a definition may need 300 words, a comparison guide 2,000. Compare with the top-ranking pages for coverage gaps rather than aiming at a number."
+  },
+  {
+    "category": "content",
+    "question": "What is keyword cannibalization and how do I fix it?",
+    "answer": "Cannibalization happens when several pages on your site compete for the same query and none ranks well. Find it by looking in Search Console for queries that show multiple URLs. Fix it by merging overlapping pages with a 301, differentiating their intent, or consolidating with canonicals and updated internal links."
+  },
+  {
+    "category": "content",
+    "question": "What is E-E-A-T?",
+    "answer": "E-E-A-T stands for experience, expertise, authoritativeness and trustworthiness, the qualities Google's quality raters use to judge content. It is not a direct ranking factor but describes what the ranking systems try to reward. Show it with real author bios, first-hand evidence, sourced claims, clear ownership and contact details."
+  },
+  {
+    "category": "links",
+    "question": "How do backlinks affect SEO?",
+    "answer": "Links from other sites act as endorsements and remain one of the strongest ranking signals. Quality and relevance matter far more than volume: a few links from respected, topically related sites outweigh many from low-quality ones. Earn them with original research, tools and useful resources, not by buying them, which violates Google's spam policies."
+  },
+  {
+    "category": "links",
+    "question": "What are internal links and why do they matter?",
+    "answer": "Internal links connect pages within your site. They help crawlers find pages, spread authority to important URLs and tell search engines what a page is about through anchor text. Link to key pages from relevant, high-traffic pages with descriptive anchors, and avoid orphan pages with no internal links."
+  },
+  {
+    "category": "links",
+    "question": "Should I use nofollow, sponsored or ugc attributes?",
+    "answer": "Use rel=sponsored for paid or affiliate links, rel=ugc for user-generated content such as comments and forums, and rel=nofollow when you do not want to vouch for a link. Google treats all three as hints, not strict commands."
+  },
+  {
+    "category": "schema",
+    "question": "What is structured data and does it improve rankings?",
+    "answer": "Structured data is machine-readable markup, usually JSON-LD using schema.org vocabulary, that describes the entities on a page. It is not a direct ranking factor, but it makes pages eligible for rich results, which can improve click-through rate, and helps search engines understand entities and their relationships."
+  },
+  {
+    "category": "schema",
+    "question": "Does FAQ schema still show rich results?",
+    "answer": "Since August 2023 Google shows FAQ rich results only for well-known, authoritative government and health websites. Other sites can still add FAQPage markup and it remains valid, but do not expect expanded FAQ snippets. The content itself still helps users and can be used by other search engines and AI systems to understand the page."
+  },
+  {
+    "category": "schema",
+    "question": "What are the rules for FAQPage markup?",
+    "answer": "Mark up only questions and answers that are visible on the page. The page should have one fixed answer per question, not user-submitted answers, which belong in QAPage. Do not use FAQ markup for advertising, and keep answers informational. HTML in answers is limited to a small set of tags such as p, a, ul, ol, li, strong and br."
+  },
+  {
+    "category": "measurement",
+    "question": "How do I measure SEO success?",
+    "answer": "Track outcomes tied to the business: organic conversions and revenue, not only traffic. Use Search Console for impressions, clicks, CTR and average position by query and page, and analytics for engagement and conversions. Review trends over months and compare year over year to account for seasonality."
+  },
+  {
+    "category": "measurement",
+    "question": "Why do impressions rise while clicks stay flat?",
+    "answer": "Impressions rise when you rank for more queries or appear more often, but clicks follow only if you rank high enough and your snippet earns the click. Check average position and CTR by query. Features such as AI overviews, ads and rich results can push organic listings down and reduce CTR even at stable rankings."
+  },
+  {
+    "category": "measurement",
+    "question": "What is a good click-through rate in search?",
+    "answer": "It depends heavily on position and query type. As a rough guide, the first organic result often gets 25 to 30 percent of clicks, the third around 10 percent and the tenth about 2 percent, and branded queries are much higher. Compare each query's CTR with others at the same position and improve titles and descriptions where it is below that baseline."
+  }
+]
