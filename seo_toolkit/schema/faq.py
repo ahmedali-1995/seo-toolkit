@@ -14,6 +14,7 @@ from pathlib import Path
 
 ALLOWED_TAGS = {"h1", "h2", "h3", "h4", "h5", "h6", "br", "ol", "ul", "li", "a",
                 "p", "div", "b", "strong", "i", "em"}
+DROP_CONTENT = {"script", "style"}
 BANK_PATH = Path(__file__).resolve().parents[2] / "data" / "faq_bank.json"
 
 
@@ -29,8 +30,12 @@ class _Sanitizer(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.out: list[str] = []
+        self._drop = 0  # depth inside <script>/<style>, whose content must not survive
 
     def handle_starttag(self, tag, attrs):
+        if tag in DROP_CONTENT:
+            self._drop += 1
+            return
         if tag not in ALLOWED_TAGS:
             return
         if tag == "a":
@@ -43,11 +48,15 @@ class _Sanitizer(HTMLParser):
             self.out.append(f"<{tag}>")
 
     def handle_endtag(self, tag):
+        if tag in DROP_CONTENT:
+            self._drop = max(0, self._drop - 1)
+            return
         if tag in ALLOWED_TAGS and tag != "br":
             self.out.append(f"</{tag}>")
 
     def handle_data(self, data):
-        self.out.append(data)
+        if not self._drop:
+            self.out.append(data)
 
 
 def sanitize_answer(html: str) -> str:

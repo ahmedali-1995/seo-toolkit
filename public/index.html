@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>seo-toolkit · live demo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%231d4ed8%27/%3E%3Cpath d=%27M8 21l5-6 4 3 7-9%27 stroke=%27white%27 stroke-width=%273%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+<meta name="description" content="Try the seo-toolkit tools in the browser: FAQ schema builder, JSON-LD validator, keyword clustering, Search Console and content-decay analysis.">
+<style>
+:root{--bg:#fafaf9;--fg:#1c1917;--mut:#6b6762;--line:#e4e1dc;--card:#fff;--acc:#1d4ed8;--bad:#b91c1c;--warn:#a16207;--ok:#15803d;--code:#f3f1ed}
+@media(prefers-color-scheme:dark){:root{--bg:#131211;--fg:#ece9e4;--mut:#9a958e;--line:#2d2a27;--card:#1a1918;--acc:#7aa2ff;--bad:#f87171;--warn:#fbbf24;--ok:#4ade80;--code:#222020}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:980px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:0 0 24px}
+.sub a{color:var(--acc)}
+nav{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:20px}
+nav button{background:none;border:0;border-bottom:2px solid transparent;color:var(--mut);padding:10px 12px;font:inherit;cursor:pointer}
+nav button[aria-selected=true]{color:var(--fg);border-color:var(--acc);font-weight:600}
+nav button:focus-visible,button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+section[hidden]{display:none}
+p.hint{color:var(--mut);margin:0 0 12px}
+label{display:block;font-weight:600;font-size:13px;margin:12px 0 4px}
+textarea,input,select{width:100%;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+textarea{min-height:200px;resize:vertical}
+input,select{font-family:inherit;font-size:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.row>div{flex:1;min-width:160px}
+.actions{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}
+button.btn{background:var(--acc);color:#fff;border:0;border-radius:6px;padding:8px 16px;font:inherit;font-weight:600;cursor:pointer}
+@media(prefers-color-scheme:dark){button.btn{color:#0b0b0b}}
+button.btn.ghost{background:none;color:var(--fg);border:1px solid var(--line);font-weight:500}
+button:disabled{opacity:.5;cursor:wait}
+.out{margin-top:16px}
+.msg{padding:8px 12px;border-radius:6px;border:1px solid var(--line);background:var(--card);margin:6px 0;font-size:14px}
+.msg.err{border-color:var(--bad);color:var(--bad)}.msg.warn{border-color:var(--warn);color:var(--warn)}.msg.ok{border-color:var(--ok);color:var(--ok)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:6px;padding:12px;overflow:auto;font:12.5px/1.5 ui-monospace,Menlo,monospace;max-height:420px;margin:6px 0}
+h3{font-size:14px;margin:18px 0 4px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--card);border:1px solid var(--line)}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+.tbl{overflow-x:auto}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line);color:var(--mut)}
+footer{margin-top:40px;color:var(--mut);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+footer a{color:var(--acc)}
+</style>
+</head>
+<body>
+<main>
+<h1>seo-toolkit</h1>
+<p class="sub">Live demo of the Python tools in <a href="https://github.com/ahmedali-1995/seo-toolkit">the repository</a>. Everything runs the same code as the CLI, behind small serverless functions. Nothing you paste is stored.</p>
+
+<nav role="tablist" id="tabs"></nav>
+
+<section id="faq" data-title="FAQ schema" hidden>
+  <p class="hint">Write Q&amp;A as Markdown (<code>## Question</code> then the answer), or load the built-in bank of general SEO questions. Output is a sanitized, linted <code>FAQPage</code> JSON-LD with the matching visible HTML.</p>
+  <div class="row">
+    <div><label for="faq-cat">Built-in bank category</label><select id="faq-cat"><option value="">All categories</option></select></div>
+    <div><label for="faq-url">Page URL (for the node @id)</label><input id="faq-url" placeholder="https://example.com/faq"></div>
+  </div>
+  <label for="faq-in">Questions and answers</label>
+  <textarea id="faq-in" spellcheck="false"></textarea>
+  <div class="actions"><button class="btn" id="faq-go">Generate JSON-LD</button><button class="btn ghost" id="faq-bank">Load from bank</button></div>
+  <div class="out" id="faq-out"></div>
+</section>
+
+<section id="val" data-title="Schema validator" hidden>
+  <p class="hint">Paste a page's HTML. Checks JSON syntax, required properties, <code>@id</code> references, and that every FAQ question is actually visible on the page.</p>
+  <label for="val-in">HTML</label>
+  <textarea id="val-in" spellcheck="false"></textarea>
+  <div class="actions"><button class="btn" id="val-go">Validate</button><button class="btn ghost" data-sample="page" data-target="val-in">Load sample (has a hidden FAQ)</button></div>
+  <div class="out" id="val-out"></div>
+</section>
+
+<section id="clu" data-title="Keyword clustering" hidden>
+  <p class="hint">One keyword per line. Keywords are grouped by TF-IDF similarity and never merged across search intent.</p>
+  <label for="clu-in">Keywords</label>
+  <textarea id="clu-in" spellcheck="false"></textarea>
+  <div class="row"><div><label for="clu-th">Similarity threshold: <span id="clu-thv">0.50</span></label><input type="range" id="clu-th" min="0.2" max="0.9" step="0.05" value="0.5"></div></div>
+  <div class="actions"><button class="btn" id="clu-go">Cluster</button><button class="btn ghost" data-sample="keywords" data-target="clu-in">Load sample</button></div>
+  <div class="out" id="clu-out"></div>
+</section>
+
+<section id="gsc" data-title="Search Console" hidden>
+  <p class="hint">Paste a Search Console export with columns <code>query,page,clicks,impressions,ctr,position</code>.</p>
+  <div class="row"><div><label for="gsc-rep">Report</label><select id="gsc-rep">
+    <option value="striking">Striking distance (positions 4-15)</option>
+    <option value="ctr">CTR underperformers</option>
+    <option value="cannibal">Cannibalization</option></select></div></div>
+  <label for="gsc-in">CSV</label>
+  <textarea id="gsc-in" spellcheck="false"></textarea>
+  <div class="actions"><button class="btn" id="gsc-go">Analyse</button><button class="btn ghost" data-sample="gsc" data-target="gsc-in">Load sample</button></div>
+  <div class="out" id="gsc-out"></div>
+</section>
+
+<section id="dec" data-title="Content decay" hidden>
+  <p class="hint">Paste daily clicks per page with columns <code>date,page,clicks</code>. A page is flagged when the latest window dropped over 20% <em>and</em> the fitted trend is negative.</p>
+  <div class="row"><div><label for="dec-w">Window (days)</label><input id="dec-w" type="number" min="7" max="90" value="28"></div></div>
+  <label for="dec-in">CSV</label>
+  <textarea id="dec-in" spellcheck="false"></textarea>
+  <div class="actions"><button class="btn" id="dec-go">Detect decay</button><button class="btn ghost" data-sample="decay" data-target="dec-in">Load sample</button></div>
+  <div class="out" id="dec-out"></div>
+</section>
+
+<footer>
+  The site crawler and log analyzer are CLI-only on purpose: a public "enter any URL" crawler is an SSRF risk, and logs shouldn't be uploaded to a demo. Sample data is synthetic.
+  <a href="https://github.com/ahmedali-1995/seo-toolkit">Source on GitHub</a>.
+</footer>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+function el(tag, props = {}, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) k === 'class' ? n.className = v : n.setAttribute(k, v);
+  for (const c of kids) n.append(c);
+  return n;
+}
+const api = async (path, body) => {
+  const r = await fetch('/api/' + path, body === undefined ? {} : {method: 'POST', body: JSON.stringify(body)});
+  let d; try { d = await r.json(); } catch { throw new Error('Server error (' + r.status + ')'); }
+  if (!r.ok) throw new Error(d.error || 'Request failed');
+  return d;
+};
+const msg = (text, kind) => el('div', {class: 'msg ' + (kind || '')}, text);
+function table(rows, cols) {
+  if (!rows.length) return msg('Nothing found for these settings.', 'ok');
+  const head = el('tr'), body = el('tbody');
+  cols.forEach(c => head.append(el('th', {}, c)));
+  rows.forEach(r => { const tr = el('tr'); cols.forEach(c => { const v = r[c]; tr.append(el('td', {}, Array.isArray(v) ? v.map(x => Array.isArray(x) ? x.join(' · ') : x).join('\n') : String(v ?? ''))); }); body.append(tr); });
+  return el('div', {class: 'tbl'}, el('table', {}, el('thead', {}, head), body));
+}
+function code(label, text) {
+  const pre = el('pre', {}, text);
+  const copy = el('button', {class: 'btn ghost'}, 'Copy');
+  copy.onclick = () => navigator.clipboard.writeText(text).then(() => { copy.textContent = 'Copied'; setTimeout(() => copy.textContent = 'Copy', 1200); });
+  return el('div', {}, el('h3', {}, label), pre, copy);
+}
+async function run(btn, out, fn) {
+  btn.disabled = true; out.replaceChildren(msg('Working...'));
+  try { out.replaceChildren(...await fn()); }
+  catch (e) { out.replaceChildren(msg(e.message, 'err')); }
+  finally { btn.disabled = false; }
+}
+
+// tabs
+const sections = [...document.querySelectorAll('main > section')];
+const tabs = $('tabs');
+function show(id) {
+  sections.forEach(s => s.hidden = s.id !== id);
+  tabs.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.id === id));
+  history.replaceState(null, '', '#' + id);
+}
+sections.forEach(s => { const b = el('button', {role: 'tab', 'data-id': s.id}, s.dataset.title); b.onclick = () => show(s.id); tabs.append(b); });
+show(sections.some(s => s.id === location.hash.slice(1)) ? location.hash.slice(1) : 'faq');
+
+// sample loaders
+document.querySelectorAll('[data-sample]').forEach(b => b.onclick = async () => {
+  try { $(b.dataset.target).value = (await api('sample?name=' + b.dataset.sample)).text; } catch (e) { alert(e.message); }
+});
+
+// FAQ
+const toMd = items => items.map(i => `## ${i.question}\n${i.answer}`).join('\n\n');
+const parseMd = t => t.split(/^##\s+/m).slice(1).map(b => { const i = b.indexOf('\n'); return {question: b.slice(0, i < 0 ? b.length : i).trim(), answer: i < 0 ? '' : b.slice(i + 1).trim()}; });
+let bank = null;
+async function loadBank() {
+  if (!bank) { bank = await api('faq'); bank.categories.forEach(c => $('faq-cat').append(el('option', {value: c}, c))); }
+  const cat = $('faq-cat').value;
+  $('faq-in').value = toMd(bank.items.filter(i => !cat || i.category === cat));
+}
+$('faq-bank').onclick = () => loadBank().catch(e => $('faq-out').replaceChildren(msg(e.message, 'err')));
+$('faq-cat').onchange = () => bank && loadBank();
+$('faq-in').value = '## What is structured data?\nStructured data is machine-readable markup, usually JSON-LD, that describes what is on a page.\n\n## Does it improve rankings?\nNot directly, but it can make a page eligible for rich results and helps search engines understand it.';
+api('faq').then(b => { bank = b; b.categories.forEach(c => $('faq-cat').append(el('option', {value: c}, c))); }).catch(() => {});
+$('faq-go').onclick = e => run(e.target, $('faq-out'), async () => {
+  const items = parseMd($('faq-in').value);
+  if (!items.length) throw new Error('Add at least one "## Question" block.');
+  const d = await api('faq', {items, url: $('faq-url').value.trim()});
+  const nodes = [msg(`${d.count} question(s) processed.`, d.warnings.length ? 'warn' : 'ok')];
+  d.warnings.forEach(w => nodes.push(msg(w, 'warn')));
+  const json = JSON.stringify(d.jsonld, null, 2);
+  nodes.push(code('JSON-LD (put in a <script type="application/ld+json"> tag)', json), code('Matching visible HTML', d.html));
+  return nodes;
+});
+
+// validator
+$('val-go').onclick = e => run(e.target, $('val-out'), async () => {
+  const d = await api('validate', {html: $('val-in').value});
+  const nodes = [msg(`${d.blocks} JSON-LD block(s) found.`)];
+  d.errors.forEach(x => nodes.push(msg(x, 'err')));
+  d.warnings.forEach(x => nodes.push(msg(x, 'warn')));
+  if (!d.errors.length) nodes.push(msg('No errors.', 'ok'));
+  return nodes;
+});
+
+// clustering
+$('clu-th').oninput = () => $('clu-thv').textContent = (+$('clu-th').value).toFixed(2);
+$('clu-go').onclick = e => run(e.target, $('clu-out'), async () => {
+  const d = await api('cluster', {keywords: $('clu-in').value, threshold: +$('clu-th').value});
+  return [msg(`${d.total} unique keywords in ${d.clusters.length} clusters.`, 'ok'),
+    table(d.clusters.map(c => ({head: c.head, intent: c.intent, keywords: c.keywords.join('\n')})), ['head', 'intent', 'keywords'])];
+});
+
+// GSC
+const gscCols = {striking: ['query', 'page', 'position', 'impressions', 'clicks', 'potential_clicks'],
+  ctr: ['query', 'page', 'position', 'ctr', 'expected_ctr', 'missed_clicks'],
+  cannibal: ['query', 'pages', 'total_impressions']};
+$('gsc-go').onclick = e => run(e.target, $('gsc-out'), async () => {
+  const rep = $('gsc-rep').value;
+  const d = await api('gsc', {csv: $('gsc-in').value, report: rep});
+  return [msg(`${d.rows} rows analysed.`), table(d.results, gscCols[rep])];
+});
+
+// decay
+$('dec-go').onclick = e => run(e.target, $('dec-out'), async () => {
+  const d = await api('decay', {csv: $('dec-in').value, window: +$('dec-w').value});
+  return [msg(`${d.pages} pages analysed.`), table(d.results, ['page', 'previous', 'current', 'drop_pct', 'lost_clicks', 'trend_per_day'])];
+});
+</script>
+</body>
+</html>

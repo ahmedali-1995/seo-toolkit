@@ -41,6 +41,13 @@ class FaqTests(unittest.TestCase):
         self.assertNotIn("iframe", text)
         self.assertNotIn("onclick", text)
 
+    def test_sanitizer_drops_script_content(self):
+        node = build_faq_page([FAQItem("Q?", "<script>alert(1)</script><style>a{}</style>Safe text " + "pad " * 12)],
+                              as_node=True)
+        text = node["mainEntity"][0]["acceptedAnswer"]["text"]
+        self.assertTrue(text.startswith("Safe text"))
+        self.assertNotIn("alert", text)
+
     def test_cli_faq_output_is_complete_json(self):
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):

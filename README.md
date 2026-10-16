@@ -5,9 +5,19 @@ Six small SEO engineering tools written as a developer would write them: plain P
 SEO work is mostly data processing and HTML/HTTP parsing, which makes it a good fit for code you can diff, test and run in CI instead of spreadsheets and one-off exports.
 
 ```bash
-python -m unittest discover -s tests      # 16 tests, ~0.5 s, no network
+python -m unittest discover -s tests      # 17 tests, ~0.5 s, no network
 python -m seo_toolkit <command> ...       # see "Tools" below
 ```
+
+## Live demo
+
+A small web UI (`public/`) calls the same Python modules through Vercel serverless functions (`api/`): FAQ schema builder, JSON-LD validator, keyword clustering, Search Console reports and content-decay detection. The crawler and log analyzer are CLI-only on purpose: a public "enter any URL" crawler is an SSRF risk, and server logs shouldn't be uploaded to a demo.
+
+```bash
+python scripts/dev_server.py 8000    # local preview, stdlib only
+```
+
+Demo hardening: 300 KB request cap, row and keyword limits, no stored input, no tracebacks returned to the client, and the UI renders user content with `textContent` only.
 
 ## Tools
 
@@ -66,6 +76,9 @@ seo_toolkit/
   gsc_analyzer.py  crawler.py  clustering.py  log_analyzer.py  content_decay.py
   schema/          builders.py  faq.py  validator.py
   cli.py
+api/               Vercel Python functions (thin wrappers over the modules)
+public/            demo UI (single static page, no build step)
+scripts/           local dev server
 data/              sample inputs + faq_bank.json (all synthetic)
 tests/             unittest suite, including a local HTTP server for the crawler
 ```
