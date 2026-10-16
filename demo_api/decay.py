@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-from _common import ApiError, make_handler
+from .common import ApiError
 from seo_toolkit import content_decay as c
 
 
@@ -22,5 +22,3 @@ def post(d):
     finally:
         os.unlink(f.name)
 
-
-handler = make_handler(post)

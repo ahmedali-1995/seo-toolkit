@@ -1,7 +1,4 @@
 {
-  "functions": {
-    "api/*.py": { "includeFiles": "{seo_toolkit,data}/**", "maxDuration": 10 }
-  },
   "headers": [
     { "source": "/(.*)", "headers": [
       { "key": "X-Content-Type-Options", "value": "nosniff" },

@@ -1,4 +1,4 @@
-from _common import ApiError, make_handler
+from .common import ApiError
 from seo_toolkit.schema import extract_jsonld, validate_html
 
 
@@ -9,5 +9,3 @@ def post(d):
     docs, _, _ = extract_jsonld(html)
     return {**validate_html(html), "blocks": len(docs)}
 
-
-handler = make_handler(post)

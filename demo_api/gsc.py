@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-from _common import ApiError, make_handler
+from .common import ApiError
 from seo_toolkit import gsc_analyzer as g
 
 REPORTS = {"striking": g.striking_distance, "ctr": g.ctr_underperformers,
@@ -25,5 +25,3 @@ def post(d):
         os.unlink(f.name)
     return {"rows": len(rows), "results": REPORTS[report](rows)[:100]}
 
-
-handler = make_handler(post)

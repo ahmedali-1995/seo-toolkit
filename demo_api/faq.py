@@ -1,4 +1,4 @@
-from _common import ApiError, make_handler
+from .common import ApiError
 from seo_toolkit.schema import FAQItem, build_faq_page, load_faq_bank, validate_faq
 from seo_toolkit.schema.faq import render_visible_html
 
@@ -19,5 +19,3 @@ def get(_path):
     return {"items": [{"question": i.question, "answer": i.answer, "category": i.category}
                       for i in bank], "categories": sorted({i.category for i in bank})}
 
-
-handler = make_handler(post, get)

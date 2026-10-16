@@ -1,4 +1,4 @@
-from _common import ApiError, make_handler
+from .common import ApiError
 from seo_toolkit.clustering import cluster
 
 
@@ -11,5 +11,3 @@ def post(d):
     th = min(max(float(d.get("threshold", 0.5)), 0.1), 0.95)
     return {"clusters": cluster(kws, threshold=th), "total": len(set(kws))}
 
-
-handler = make_handler(post)

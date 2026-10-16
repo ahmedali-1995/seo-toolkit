@@ -1,7 +1,7 @@
 import os
 from urllib.parse import parse_qs, urlparse
 
-from _common import ApiError, make_handler
+from .common import ApiError
 
 FILES = {"gsc": "sample_gsc.csv", "decay": "sample_traffic.csv",
          "keywords": "sample_keywords.txt", "page": "sample_page.html"}
@@ -15,5 +15,3 @@ def get(path):
     with open(os.path.join(DATA, FILES[name]), encoding="utf-8") as f:
         return {"text": f.read()}
 
-
-handler = make_handler(None, get)
